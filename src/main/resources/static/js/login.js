@@ -33,6 +33,18 @@ function loginByPasswordFunction() {
                                    placeholder="请输入密码">
                         </div>
                         <div>
+                            <label for="code">验证码</label>
+                            <span id="codeSpan"></span>
+                        </div>
+                        <div>
+                            <input type="code" class="ipt1" maxlength="12" id="code" name="code"
+                                   placeholder="请输入验证码">
+                        </div>
+                        <div>
+                         <img id="imgVerify" src="" onclick="getVerify();" alt="点击更换验证码"/>
+                         <a href="#" onclick="getVerify();" rel="nofollow">看不清，换一张</a>
+                         </div>
+                        <div>
                             <span id="loginMsg"></span>
                         </div>
                         <div>
@@ -46,6 +58,11 @@ function loginByPasswordFunction() {
                         </div>`;
         bindingEventsFunction();
     }
+}
+//获取验证码
+function getVerify(){
+    var src1=document.getElementById('imgVerify')
+    src1.src = "/customer/getVerify?"+Math.random();
 }
 
 loginByCode.onclick = function () {

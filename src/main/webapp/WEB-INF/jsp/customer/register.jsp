@@ -54,9 +54,12 @@
         <div class="listInfo">
             <div class="lr-h">
                 <a href="" class="choose">手机注册</a>
-                <a href="${pageContext.request.contextPath}/customer/login">前往登录</a>
+                <a href="${pageContext.request.contextPath}/login">前往登录</a>
             </div>
             <form id="signup">
+                <div>
+                    ${img}
+                </div>
                 <div>
                     <label for="phoneIpt">手机号码</label>
                     <span id="sp1"></span>

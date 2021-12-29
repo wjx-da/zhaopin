@@ -44,7 +44,7 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       url: jdbc:mysql://localhost:3306/zhaopin?serverTimezone=UTC&useUnicode=true&characterencoding=utf8
       username: root
-      password: root
+      password: 29349568a
       #数据库连接池的参数配置
       # 初始化连接数量
       initial-size: 5
@@ -79,6 +79,13 @@ spring:
       stat-view-servlet:
         login-username: admin #监控页面登录的用户名
         login-password: admin #监控页面登录的密码
+  redis:
+    database: 0
+    host: 127.0.0.1
+    password: 29349568a
+    port: 6379
+    timeout: 60000
+    
 
 
 mybatis:
@@ -91,6 +98,4 @@ pagehelper:
   reasonable: true
   support-methods-arguments: true
   params: count=countSql
-
-
 

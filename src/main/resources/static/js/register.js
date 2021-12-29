@@ -11,7 +11,6 @@ let codeSpan = document.querySelector("#sp2");// 验证码 span
 let passwordSpan = document.querySelector("#sp3");// 密码 span
 let rePwdSpan = document.querySelector("#sp4");// 重复密码 span
 let registerMsg = document.querySelector("#registerMsg");// 注册失败消息提示框
-
 let phoneType = false, // 手机号 flag
     codeType = false, // 验证码 flag
     pwdType = false, // 密码 flag
@@ -41,16 +40,14 @@ passwordIpt.onblur = function () {
 };
 rePwdIpt.onblur = function () {
     // 重复密码
-    if (rePwdType === false) {
         if (passwordIpt.value === "")
             rePwdSpan.innerText = "请先输入密码";
-        else
-            rePwdSpan.innerText = "两次密码输入不一致，请核对";
+        if(rePwdIpt.value != passwordIpt.value)
+            rePwdSpan.innerText = "两次输入密码不一致";
         let timer = setTimeout(function () {
             rePwdSpan.innerText = "";
             clearTimeout(timer);
         }, 2000);
-    }
 };
 codeIpt.onblur = function () {
     // 验证码
@@ -144,17 +141,18 @@ sendCodeBtn.onclick = function () {
 };
 
 // 注册点击事件
-registerBtn.onclick = function () {
+registerBtn.onclick = async function () {
     let inputContent = document.querySelector("#signup").serialize();//序列化获取表单数据
     let url = ROOTSources + "/customer/add";
     let ajax = new XMLHttpRequest() || new ActiveXObject('Microsoft.XMLHTTP');
     ajax.open("POST", url, true);
-    ajax.setRequestHeader("content-type","application/x-www-form-urlencoded");
+    ajax.setRequestHeader("content-type", "application/x-www-form-urlencoded");
     ajax.send(inputContent);
+
     ajax.onreadystatechange = function () {
         if (ajax.readyState === 4) {
             if (ajax.status >= 200 && ajax.status < 300 || ajax.status === 304)
-                window.location.href = ROOTSources + "/login";
+                window.location.href = ROOTSources + "/"+ajax.response.get();
             else {
                 registerMsg.innerText = "注册失败，请重试";
                 let timer = setTimeout(function () {

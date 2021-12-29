@@ -5,12 +5,14 @@ import com.aistar.service.CustomerService;
 import com.aistar.service.ResumeDeliveryRecordService;
 import com.aistar.service.ResumeService;
 import com.aistar.serviceVO.ResumeJobCompanyRDRVOService;
+import com.aistar.util.RandomValidateCode;
 import com.aistar.util.ServerResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/customer")
@@ -41,15 +43,29 @@ public class CustomerController {
             }
             request.setAttribute("type", type);//这里的type需要判断
             return "customer/personalCenter";
-        } else
+        } else {
             return "redirect:/"; // 未登录
+        }
     }
-
+    @RequestMapping(value = "/getVerify")
+    public void getVerify(HttpServletRequest request, HttpServletResponse response){
+        response.setContentType("image/jpeg");//设置相应类型,告诉浏览器输出的内容为图片
+        response.setHeader("Pragma", "No-cache");//设置响应头信息，告诉浏览器不要缓存此内容
+        response.setHeader("Cache-Control", "no-cache");
+        response.setDateHeader("Expire", 0);
+        RandomValidateCode randomValidateCode = new RandomValidateCode();
+        try {
+            randomValidateCode.getRandcode(request, response);//输出验证码图片方法
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     //    登录ajax
     @GetMapping("/login")
     @ResponseBody
-    public ServerResponse login(String username, String password, Integer type, Integer userType, HttpServletRequest request) {
+    public ServerResponse login(String username, String password,String code, Integer type, Integer userType, HttpServletRequest request) {
         ServerResponse serverResponse = null;
+        System.out.println(code+" =========");
         if (1 == type) { // 手机号、邮箱 & 密码
             // userType = 0手机号；1邮箱
             serverResponse = customerService.getByUsernameAndPwd(username, password, userType);
